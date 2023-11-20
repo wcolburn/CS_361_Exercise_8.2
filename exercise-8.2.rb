@@ -1,3 +1,20 @@
+class Game
+  def initialize(players)
+    @players = players
+  end
+  def play_game
+    puts "Players in the game:"
+    @players.each { |player| puts "#{player.name}" }
+  end
+  def get_results
+    "[pretend these are game results]"
+  end
+  def get_player_name(i)
+    @players[i]
+  end
+end
+
+
 class Poker
   def initialize(players)
     @players = players
