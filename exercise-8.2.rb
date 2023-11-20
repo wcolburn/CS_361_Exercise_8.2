@@ -15,26 +15,20 @@ class Game
 end
 
 
-class Poker
+class Poker < Game
   def initialize(players)
-    @players = players
+    super(players)
     @hands = []
-    players.length().times { |x| @hands.append(nil) }
+    players.length.times { |x| @hands.append(nil) }
   end
-  def play_poker()
+  def play_game
     puts "Players in the poker game:"
     @players.length().times { |i| puts "#{self.get_player_name(i)}:
 #{self.get_player_hand(i)}" }
     # [pretend there's code here]
   end
-  def get_results()
-    return "[pretend these are poker results]"
-  end
-  def get_player_name(i)
-    return @players[i]
-  end
   def get_player_hand(i)
-    return @hands[i]
+    @hands[i]
   end
 end
 
@@ -94,7 +88,7 @@ class PlayGames
     case @game_number
     when 1
       poker = Poker.new(@player_list)
-      poker.play_poker()
+      poker.play_game()
       puts poker.get_results()
     when 2
       chess = Chess.new(@player_list)
