@@ -59,7 +59,7 @@ end
 
 
 
-class Go
+class Go < Game
   def initialize(players)
     @players = []
     players.each { |x, y| @players.append(GoPlayer.new(x, y)) }
@@ -68,9 +68,6 @@ class Go
     puts "Players in the go game:"
     @players.each { |player| puts "#{player.name}: #{player.color}" }
     # [pretend there's code here]
-  end
-  def get_score()
-    return "[pretend these are go results]"
   end
 end
 
@@ -94,7 +91,7 @@ class PlayGames
     when 3
       go = Go.new(@player_list)
       go.play()
-      puts go.get_score()
+      puts go.get_results()
     end
   end
 end
