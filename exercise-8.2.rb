@@ -1,106 +1,123 @@
 class Game
-  def initialize(players)
-    @players = players
+  def initialize
+    super
   end
   def play_game
-    puts "Players in the game:"
-    @players.each { |player| puts "#{player.name}" }
+    #... Whatever work is done
   end
   def get_results
     "[pretend these are game results]"
   end
-  def get_player_name(i)
-    @players[i]
+end
+
+class Player
+  attr_reader :name
+  def initialize(name)
+    @name = name
+  end
+  def list_self
+    @name
   end
 end
 
+class PokerPlayer < Player
+  attr_reader :hand
+  def initialize(name, hand=nil)
+    super(name)
+    @hand = hand
+  end
+  def list_self
+    super + ": #{@hand}"
+  end
+end
 
 class Poker < Game
-  def initialize(players)
-    super(players)
-    @hands = []
-    players.length.times { |x| @hands.append(nil) }
+  def initialize
+    super
   end
   def play_game
-    puts "Players in the poker game:"
-    @players.length().times { |i| puts "#{self.get_player_name(i)}:
-#{self.get_player_hand(i)}" }
+    super
     # [pretend there's code here]
-  end
-  def get_player_hand(i)
-    @hands[i]
   end
 end
 
-
-class Chess < Game
-  def initialize(players)
-    super(players)
-  end
-  def play_game()
-    puts "Players in the chess game:"
-    @players.length().times { |x| puts "#{self.get_player_name(x)}: #{@players[x]
-    [1]}" }
-    # [pretend there's code here]
-  end
-  def get_player_name(i)
-    @players[i][0]
-  end
-end
-
-
-class GoPlayer
-  attr_reader :name, :color
+class ChessPlayer < Player
+  attr_reader :color
   def initialize(name, color)
-    @name = name
+    super(name)
     @color = color
   end
+  def list_self
+    super + ": " + @color
+  end
 end
 
-
-
-class Go < Game
-  def initialize(players)
-    @players = []
-    players.each { |x, y| @players.append(GoPlayer.new(x, y)) }
+class Chess < Game
+  def initialize
+    super
   end
-  def play()
-    puts "Players in the go game:"
-    @players.each { |player| puts "#{player.name}: #{player.color}" }
+  def play_game
+    super
     # [pretend there's code here]
   end
 end
 
-
-
-class PlayGames
-  def initialize(game_number, player_list)
-    @player_list = player_list
-    @game_number = game_number
+class GoPlayer < Player
+  attr_reader :color
+  def initialize(name, color)
+    super(name)
+    @color = color
   end
-  def play()
-    case @game_number
-    when 1
-      poker = Poker.new(@player_list)
-      poker.play_game()
-      puts poker.get_results()
-    when 2
-      chess = Chess.new(@player_list)
-      chess.play_game()
-      puts chess.get_results()
-    when 3
-      go = Go.new(@player_list)
-      go.play()
-      puts go.get_results()
-    end
+  def list_self
+    super + ": " + @color
   end
 end
 
-pg = PlayGames.new(1, ["alice", "bob", "chris", "dave"])
-pg.play()
-puts
-pg = PlayGames.new(2, [["alice", "white"], ["bob", "black"]])
-pg.play()
-puts
-pg = PlayGames.new(3, [["alice", "white"], ["bob", "black"]])
-pg.play()
+class Go < Game
+  def initialize
+    super
+  end
+  def play
+    # [pretend there's code here]
+  end
+end
+
+class PlayGame
+  def initialize(game, player_list)
+    @game = game
+    @player_list = player_list
+  end
+  def play
+    list_players
+    @game.play_game
+    puts @game.get_results
+    puts "\n"
+  end
+  def list_players
+    puts "Players in the game:"
+    @player_list.each { |player| puts player.list_self }
+  end
+  def get_player_name(i)
+    @player_list[i]
+  end
+end
+
+poker_game = Poker.new
+p1 = PokerPlayer.new("alice")
+p2 = PokerPlayer.new("bob")
+p3 = PokerPlayer.new("chris")
+p4 = PokerPlayer.new("dave")
+pg = PlayGame.new(poker_game, [p1, p2, p3, p4])
+pg.play
+
+chess_game = Chess.new
+p1 = ChessPlayer.new("alice", "white")
+p2 = ChessPlayer.new("bob", "black")
+pg = PlayGame.new(chess_game, [p1, p2])
+pg.play
+
+go_game = Go.new
+p1 = GoPlayer.new("alice", "white")
+p2 = GoPlayer.new("bob", "black")
+pg = PlayGame.new(go_game, [p1, p2])
+pg.play
